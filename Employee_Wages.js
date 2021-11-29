@@ -197,24 +197,75 @@
     console.log("Part Working Days " + partWorkingDays);
     console.log("Full Working Days " + fullWorkingDays);
 
-     //UC-10 :- Object Creation
+    //UC-10 :- Object Creation
 
-     totalEmpHrs = 0;
-     let totalWorkingdays = 0;
-     let empDailyHrsAndWageArr = new Array();
-     while (totalEmpHrs <= MAX_HRS_IN_MONTH && totalWorkingdays <= NUM_OF_WORKING_DAYS) {
-         totalWorkingdays++;
-         empCheck = Math.floor((Math.random() * 10) % 3);
-         const empHrs = getWorkingHours(empCheck);
-         totalEmpHrs += empHrs;
-         empDailyHrsAndWageArr.push({
-             dayNum: totalWorkingdays,
-             dailyHours: empHrs,
-             dailyWage: calDailyWage(empHrs),
-             toString() {
-                 return '\nDay ' + this.dayNum + ' => working Hours is ' + this.dailyHours + ' And Wage Earned = ' + this.dailyWage
-             }
-         });
-     }
-     console.log("UC:-10 Showing daily hours worked and wage earned: " + empDailyHrsAndWageArr);
+    totalEmpHrs = 0;
+    let totalWorkingdays = 0;
+    let empDailyHrsAndWageArr = new Array();
+    while (totalEmpHrs <= MAX_HRS_IN_MONTH && totalWorkingdays <= NUM_OF_WORKING_DAYS) {
+        totalWorkingdays++;
+        empCheck = Math.floor((Math.random() * 10) % 3);
+        const empHrs = getWorkingHours(empCheck);
+        totalEmpHrs += empHrs;
+        empDailyHrsAndWageArr.push({
+            dayNum: totalWorkingdays,
+            dailyHours: empHrs,
+            dailyWage: calDailyWage(empHrs),
+            toString() {
+                return '\nDay ' + this.dayNum + ' => working Hours is ' + this.dailyHours + ' And Wage Earned = ' + this.dailyWage
+            }
+        });
+    }
+    console.log("UC:-10 Showing daily hours worked and wage earned: " + empDailyHrsAndWageArr);
+
+    //UC-11 to UC-11D :- Using Object Functions along with Arrow function.
+
+    let totalWagess = empDailyHrsAndWageArr.filter(dailyHrsAndWage => dailyHrsAndWage.dailyWage > 0)
+        .reduce((totalWage, dailyHrsAndWage) => totalWage += dailyHrsAndWage.dailyWage, 0);
+    let TotalHours = empDailyHrsAndWageArr.filter(dailyHrsAndWage => dailyHrsAndWage.dailyHours > 0)
+        .reduce((totalHours, dailyHrsAndWage) => totalHours += dailyHrsAndWage.dailyHours, 0);
+    console.log("UC-11A :- Total hours: " + TotalHours + " Total Wages : " + totalWagess);
+
+    console.log("UC-11B :- Loggin full working days");
+    empDailyHrsAndWageArr.filter(dailyHrsAndWage => dailyHrsAndWage.dailyHours == 8).
+        forEach(dailyHrsAndWage => console.log(dailyHrsAndWage.toString()));
+
+    let partWorkingDayStrArr = empDailyHrsAndWageArr.filter(dailyHrsAndWage => dailyHrsAndWage.dailyHours == 4).
+        forEach(dailyHrsAndWage => dailyHrsAndWage.toString());
+
+    //UC11C
+    console.log("\nUC 11C :- part time working string " + partWorkingDayStrArr);
+
+    let nonworkingDayStrArr = empDailyHrsAndWageArr.filter(dailyHrsAndWage => dailyHrsAndWage.dailyHours == 0)
+        .forEach(dailyHrsAndWage => dailyHrsAndWage.toString());
+    console.log("\nUC 11D :- No working days " + nonworkingDayStrArr);
+
+    // Refactored UC11 Employee Wage With Class
+
+    class EmployeePayrollData {
+        //property
+        id;
+        salary;
+
+        //constructor
+        constructor(id, name, salary) {
+            this.id = id;
+            this.name = name;
+            this.salary = salary;
+        }
+
+        //getter and setter
+        get name() { return this._name; }
+        set name(name) { this._name = name; }
+
+        //method
+        toString() {
+            return "id =" + this.id + ", name = " + this.name + ", salary = " + this.salary;
+        }
+    }
+
+    let employeePayrollData = new EmployeePayrollData(1, "Priyanka", 300000);
+    console.log(employeePayrollData.toString());
+    employeePayrollData.name = "Jhon";
+    console.log(employeePayrollData.toString());
 }
